@@ -1,16 +1,13 @@
 import AlertDataForm from "@/Components/Alert/AlertDataForm";
-import theme from "@/Helper/theme";
+import CheckInsertCard, {
+  CheckInsertCardInLoginPage,
+} from "@/Helper/CheckLogin/CheckLogin";
+import CheckLogin from "@/Helper/CheckLogin/CheckLogin";
 import GuestLayout from "@/Layout/GuestLayout";
+import { selectIdLogin } from "@/Redux/Slices/dataIdLoginSlice";
 import { selectDataUser } from "@/Redux/Slices/dataUsersSlice";
-import {
-  Alert,
-  Box,
-  Button,
-  FormControl,
-  Stack,
-  TextField,
-  styled,
-} from "@mui/material";
+import { Box, Button, FormControl } from "@mui/material";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import PinInput from "react-pin-input";
@@ -23,20 +20,28 @@ export default function Login() {
   const [alertVisible, setAlertVisible] = useState(false);
 
   const { dataUsers } = useSelector(selectDataUser);
+  const getIdLogin = JSON.parse(localStorage.getItem("IdLogin"));
 
   const handleLogin = () => {
     const pinValue = pinInputRef.current.values;
 
-    console.log(dataUsers);
-    console.log(pinValue.join(""));
+    if (dataUsers.length === 0) {
+      // Data pengguna kosong, tindakan yang sesuai di sini
+      return;
+    }
+
+    const userLogin = dataUsers.find((user) => user.id === getIdLogin);
+
     if (pinValue.some((value) => !value)) {
       setIfInputNull(true);
+      setAlertVisible(false);
     } else {
-      if (dataUsers.pin == pinValue.join("")) {
+      if (userLogin.pin == pinValue.join("")) {
         // membuat data id login
         route.push("/");
       } else {
         setAlertVisible(true);
+        setIfInputNull(false);
       }
     }
   };
@@ -112,4 +117,18 @@ export default function Login() {
       </Box>
     </GuestLayout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const isEnterCard = CheckInsertCardInLoginPage(
+    context.req.cookies.idEnterCard
+  );
+
+  if (isEnterCard) {
+    return isEnterCard;
+  }
+
+  return {
+    props: {},
+  };
 }

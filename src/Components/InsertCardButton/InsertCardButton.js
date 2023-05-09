@@ -1,40 +1,45 @@
-import { setDataUsers } from "@/Redux/Slices/dataUsersSlice";
 import { Button } from "@mui/material";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 
 export default function InsertCardButton({ text, action }) {
   const route = useRouter();
-  const dispatch = useDispatch();
 
   const handleInsertCardA = async () => {
     try {
-      // cek data dalam local storage
-
       const response = await fetch("/api/user");
       const data = await response.json();
       const user = data.find((user) => user.id === 1);
-      dispatch(setDataUsers(user));
+
+      // dispatch(setIdLogin(user.id));
+      // dispatch(setDataUsers(data));
+      localStorage.setItem("IdLogin", JSON.stringify(user.id));
+      Cookies.set("idEnterCard", user.id, { expires: 1 / 24 });
       route.push("/login");
     } catch (error) {
       console.error(error);
     }
   };
-  const handleInsertCardB = () => {
-    console.log("B");
-  };
-  const invalidCard = () => {
-    console.log("invalidCard");
+
+  const handleInsertCardB = async () => {
+    try {
+      const response = await fetch("/api/user");
+      const data = await response.json();
+      const user = data.find((user) => user.id === 2);
+
+      Cookies.set("idEnterCard", user.id, { expires: 1 / 24 });
+
+      localStorage.setItem("IdLogin", JSON.stringify(user.id));
+      route.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <Button
       onClick={
-        action == "handleInsertCardA"
-          ? handleInsertCardA
-          : action === "handleInsertCardB"
-          ? handleInsertCardB
-          : invalidCard
+        action == "handleInsertCardA" ? handleInsertCardA : handleInsertCardB
       }
       variant="contained"
       size="large"

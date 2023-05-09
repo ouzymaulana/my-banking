@@ -1,10 +1,15 @@
+import AlertDataForm from "@/Components/Alert/AlertDataForm";
 import InsertCardButton from "@/Components/InsertCardButton/InsertCardButton";
+import InvalidCardButton from "@/Components/InsertCardButton/InvalidCardButton";
+import CheckInsertCard from "@/Helper/CheckLogin/CheckLogin";
 import theme from "@/Helper/theme";
 import GuestLayout from "@/Layout/GuestLayout";
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 export default function InsertCart() {
+  const [validCard, setValidCard] = useState(true);
+
   return (
     <GuestLayout title="MyBanking">
       <Box paddingTop={20}>
@@ -31,6 +36,12 @@ export default function InsertCart() {
               Silahkan Masukkan Kartu ATM
             </Typography>
           </Box>
+          {!validCard && (
+            <AlertDataForm
+              title="Kartu Anda Tidak Valid"
+              severityStatus="error"
+            />
+          )}
           <Box>
             <InsertCardButton
               text="Masukkan Kartu A"
@@ -43,11 +54,24 @@ export default function InsertCart() {
               action="handleInsertCardB"
             />
           </Box>
-          <Box>
-            <InsertCardButton text="Kartu Tidak Valid" action="invalidCard" />
-          </Box>
+          <InvalidCardButton
+            text="Kartu Tidak Valid"
+            setValidCard={setValidCard}
+          />
         </Box>
       </Box>
     </GuestLayout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const isLogin = CheckInsertCard(context.req.cookies.idEnterCard);
+
+  if (isLogin) {
+    return isLogin;
+  }
+
+  return {
+    props: {},
+  };
 }

@@ -6,6 +6,7 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const menuBoxStyle = {
   display: "flex",
@@ -14,6 +15,12 @@ const menuBoxStyle = {
   flexDirection: "column",
   margin: "0 30px 30px 30px",
 };
+
+const handleLogout = () => {
+  localStorage.removeItem("IdLogin");
+  Cookies.remove("idEnterCard");
+};
+
 export default function Menu() {
   return (
     <>
@@ -42,7 +49,11 @@ export default function Menu() {
         <span>profile</span>
       </Box>
       <Box sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link
+          className={style.buttonMenu}
+          href="/insert-card"
+          onClick={handleLogout}
+        >
           <LogoutOutlinedIcon color="action" fontSize="large" />
         </Link>
         <span>LogOut</span>

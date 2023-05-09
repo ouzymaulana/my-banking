@@ -3,9 +3,10 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const dataUsersPersistConfig = {
-  key: "dataUser",
+  key: "dataUsers",
   storage: storage,
   whitelist: ["dataUsers"],
+  // whitelist: ["dataUsers", "idLogin"],
 };
 
 const userSlice = createSlice({
@@ -15,14 +16,14 @@ const userSlice = createSlice({
   },
   reducers: {
     setDataUsers: (state, action) => {
-      if (Array.isArray(state.dataUsers) !== 0) {
-        // state.dataUsers = [...state.dataUsers, { ...action.payload }];
-        state.dataUsers = action.payload;
-        console.log("belum ada");
-      } else {
-        state.dataUsers = action.payload;
-        console.log("sudah ada");
-      }
+      state.dataUsers = action.payload;
+      // if (Array.isArray(state.dataUsers) !== 0) {
+      // state.dataUsers = [...state.dataUsers, { ...action.payload }];
+      //   console.log("belum ada");
+      // } else {
+      //   state.dataUsers = action.payload;
+      //   console.log("sudah ada");
+      // }
     },
   },
 });

@@ -2,12 +2,9 @@ import { Box } from "@mui/material";
 import theme from "@/Helper/theme";
 import MenuUtama from "@/Components/MenuUtama";
 import Menu from "@/Components/MenuUtama/Menu";
+import { CheckInsertCardInLoginPage } from "@/Helper/CheckLogin/CheckLogin";
 
 export default function MenuView() {
-  const handleLogout = () => {
-    console.log("logout");
-  };
-
   return (
     <Box
       sx={{

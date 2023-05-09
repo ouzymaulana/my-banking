@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import MainLayout from "@/Layout";
 import MenuView from "@/Views/Menu";
+import { CheckInsertCardInLoginPage } from "@/Helper/CheckLogin/CheckLogin";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,4 +18,18 @@ export default function Menu() {
       </MainLayout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const isEnterCard = CheckInsertCardInLoginPage(
+    context.req.cookies.idEnterCard
+  );
+
+  if (isEnterCard) {
+    return isEnterCard;
+  }
+
+  return {
+    props: {},
+  };
 }
