@@ -14,7 +14,17 @@ export default function MainLayout({ children }) {
           backgroundColor: "#FFFF",
         }}
       >
-        {children}
+        <Box
+          sx={{
+            height: "100vh",
+            width: "50rem",
+            padding: "110px 30px 30px 30px",
+            backgroundColor: theme.palette.secondary.main,
+          }}
+          color="#424242"
+        >
+          {children}
+        </Box>
       </Box>
     </>
   );

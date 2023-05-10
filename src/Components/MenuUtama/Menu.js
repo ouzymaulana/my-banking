@@ -5,6 +5,7 @@ import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivism
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import HistoryIcon from "@mui/icons-material/History";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
@@ -14,6 +15,7 @@ const menuBoxStyle = {
   alignItems: "center",
   flexDirection: "column",
   margin: "0 30px 30px 30px",
+  width: "5rem",
 };
 
 const handleLogout = () => {
@@ -25,7 +27,7 @@ export default function Menu() {
   return (
     <>
       <Box sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link className={style.buttonMenu} href="/tarik-tunai">
           <CurrencyExchangeOutlinedIcon color="action" fontSize="large" />
         </Link>
         <span>tarik tunai</span>
@@ -57,6 +59,12 @@ export default function Menu() {
           <LogoutOutlinedIcon color="action" fontSize="large" />
         </Link>
         <span>LogOut</span>
+      </Box>
+      <Box textAlign="center" sx={menuBoxStyle}>
+        <Link className={style.buttonMenu} href="/">
+          <HistoryIcon color="action" fontSize="large" />
+        </Link>
+        <span>mutasi rekening</span>
       </Box>
     </>
   );

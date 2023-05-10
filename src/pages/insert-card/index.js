@@ -7,9 +7,8 @@ import GuestLayout from "@/Layout/GuestLayout";
 import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 
-export default function InsertCart() {
+export default function InsertCart({ dataUserLogin }) {
   const [validCard, setValidCard] = useState(true);
-
   return (
     <GuestLayout title="MyBanking">
       <Box paddingTop={20}>
@@ -30,7 +29,7 @@ export default function InsertCart() {
         >
           <Box paddingBottom={15} fontWeight={600}>
             <Typography variant="h4" gutterBottom>
-              Selamata Datang
+              Selamat Datang
             </Typography>
             <Typography variant="h5" gutterBottom>
               Silahkan Masukkan Kartu ATM
@@ -44,12 +43,14 @@ export default function InsertCart() {
           )}
           <Box>
             <InsertCardButton
+              dataUserLogin={dataUserLogin}
               text="Masukkan Kartu A"
               action="handleInsertCardA"
             />
           </Box>
           <Box>
             <InsertCardButton
+              dataUserLogin={dataUserLogin}
               text="Masukkan Kartu B"
               action="handleInsertCardB"
             />
@@ -71,7 +72,18 @@ export async function getServerSideProps(context) {
     return isLogin;
   }
 
+  let users = [];
+  try {
+    const res = await fetch(`http://localhost:3000/api/user`);
+    users = await res.json();
+  } catch (error) {
+    console.log(error);
+    console.error(error);
+  }
+
   return {
-    props: {},
+    props: {
+      dataUserLogin: users,
+    },
   };
 }

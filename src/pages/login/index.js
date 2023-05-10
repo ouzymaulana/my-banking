@@ -2,22 +2,24 @@ import AlertDataForm from "@/Components/Alert/AlertDataForm";
 import CheckInsertCard, {
   CheckInsertCardInLoginPage,
 } from "@/Helper/CheckLogin/CheckLogin";
-import CheckLogin from "@/Helper/CheckLogin/CheckLogin";
 import GuestLayout from "@/Layout/GuestLayout";
-import { selectIdLogin } from "@/Redux/Slices/dataIdLoginSlice";
-import { selectDataUser } from "@/Redux/Slices/dataUsersSlice";
+import {
+  selectDataUser,
+  setInvalidLoginValue,
+} from "@/Redux/Slices/dataUsersSlice";
 import { Box, Button, FormControl } from "@mui/material";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import PinInput from "react-pin-input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function Login() {
+export default function Login({ idInserCart }) {
   const pinInputRef = useRef(null);
   const route = useRouter();
+  const dispatch = useDispatch();
   const [ifInputNull, setIfInputNull] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [invalidLogin, setInvalidLogin] = useState(false);
 
   const { dataUsers } = useSelector(selectDataUser);
   const getIdLogin = JSON.parse(localStorage.getItem("IdLogin"));
@@ -35,13 +37,21 @@ export default function Login() {
     if (pinValue.some((value) => !value)) {
       setIfInputNull(true);
       setAlertVisible(false);
+      setInvalidLogin(false);
     } else {
       if (userLogin.pin == pinValue.join("")) {
-        // membuat data id login
         route.push("/");
       } else {
-        setAlertVisible(true);
-        setIfInputNull(false);
+        if (userLogin.invaliLogin !== 3) {
+          dispatch(setInvalidLoginValue(userLogin.id));
+          setAlertVisible(true);
+          setIfInputNull(false);
+          setInvalidLogin(false);
+        } else {
+          setInvalidLogin(true);
+          setAlertVisible(false);
+          setIfInputNull(false);
+        }
       }
     }
   };
@@ -67,6 +77,12 @@ export default function Login() {
           )}
           {alertVisible && (
             <AlertDataForm title="Pin Tidak Valid" severityStatus="error" />
+          )}
+          {invalidLogin && (
+            <AlertDataForm
+              title="Anda memasukkan PIN tidak valid 3x, Anda dapat mengakses kembali dalam satu jam kedepan"
+              severityStatus="error"
+            />
           )}
           <FormControl variant="standard" sx={{ width: "100%" }}>
             <PinInput
@@ -129,6 +145,8 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {},
+    props: {
+      idInserCart: context.req.cookies.idEnterCard,
+    },
   };
 }

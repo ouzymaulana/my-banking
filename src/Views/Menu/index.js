@@ -6,25 +6,28 @@ import { CheckInsertCardInLoginPage } from "@/Helper/CheckLogin/CheckLogin";
 
 export default function MenuView() {
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        width: "50rem",
-        padding: "110px 30px 30px 30px",
-        backgroundColor: theme.palette.secondary.main,
-      }}
-      color="#424242"
-    >
+    // <Box
+    //   sx={{
+    //     height: "100vh",
+    //     width: "50rem",
+    //     padding: "110px 30px 30px 30px",
+    //     backgroundColor: theme.palette.secondary.main,
+    //   }}
+    //   color="#424242"
+    // >
+
+    <>
       <MenuUtama />
       <Box
         marginTop={2.7}
         padding="20px 20px"
         display="flex"
         flexWrap="wrap"
-        justifyContent="space-around"
+        justifyContent="start"
       >
         <Menu />
       </Box>
-    </Box>
+    </>
+    // </Box>
   );
 }

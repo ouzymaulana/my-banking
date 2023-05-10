@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -25,6 +26,26 @@ const userSlice = createSlice({
       //   console.log("sudah ada");
       // }
     },
+
+    setInvalidLoginValue: (state, action) => {
+      const itemIndex = state.dataUsers.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      if (state.dataUsers[itemIndex].invaliLogin < 3) {
+        state.dataUsers[itemIndex].invaliLogin += 1;
+      }
+    },
+
+    updateBalance: (state, action) => {
+      const id = Cookies.get("idEnterCard");
+      console.log(action.payload);
+      console.log(id);
+      const itemIndex = state.dataUsers.findIndex((item) => item.id == id);
+      if (state.dataUsers[itemIndex].saldo > action.payload) {
+        state.dataUsers[itemIndex].saldo -= action.payload;
+      }
+    },
   },
 });
 
@@ -34,5 +55,6 @@ const persistedDataUserReducer = persistReducer(
 );
 
 export const selectDataUser = (state) => state.dataUsers;
-export const { setDataUsers } = userSlice.actions;
+export const { setDataUsers, setInvalidLoginValue, updateBalance } =
+  userSlice.actions;
 export default persistedDataUserReducer;
