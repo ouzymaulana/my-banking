@@ -20,6 +20,7 @@ export default function Navbar() {
         top={0}
         sx={{
           backgroundColor: "#B3C99C",
+          backgroundImage: `url("/img/navbar3.png")`,
           height: "5rem",
           fontFamily: "Poppins, sans-serif",
           fontSize: "1.8em",

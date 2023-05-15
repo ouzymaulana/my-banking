@@ -1,15 +1,19 @@
 import AlertDataForm from "@/Components/Alert/AlertDataForm";
+import ButtonSubmit from "@/Components/Login/ButtonSubmit";
 import CheckInsertCard, {
-  CheckInsertCardInLoginPage,
+  CheckCookieInsertCardInLoginPage,
+  CheckInsertCardAndLoginTwo,
 } from "@/Helper/CheckLogin/CheckLogin";
 import GuestLayout from "@/Layout/GuestLayout";
 import {
-  selectDataUser,
+  deleteInvalidLoginTimeValue,
+  selectSecondDataUser,
   setInvalidLoginValue,
 } from "@/Redux/Slices/dataUsersSlice";
-import { Box, Button, FormControl } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PinInput from "react-pin-input";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,25 +25,45 @@ export default function Login({ idInserCart }) {
   const [alertVisible, setAlertVisible] = useState(false);
   const [invalidLogin, setInvalidLogin] = useState(false);
 
-  const { dataUsers } = useSelector(selectDataUser);
-  const getIdLogin = JSON.parse(localStorage.getItem("IdLogin"));
-
+  const dataUsers = useSelector(selectSecondDataUser);
   const handleLogin = () => {
     const pinValue = pinInputRef.current.values;
 
-    if (dataUsers.length === 0) {
-      // Data pengguna kosong, tindakan yang sesuai di sini
-      return;
+    const userLogin = dataUsers.find((user) => user.id == idInserCart);
+
+    if (userLogin.invaliLogin === 3) {
+      const currentTime = new Date().getMinutes();
+      if (userLogin.invalidLoginTime <= currentTime) {
+        setInvalidLogin(false);
+        dispatch(deleteInvalidLoginTimeValue(userLogin.id));
+        loginConditioning(pinValue, userLogin);
+      } else {
+        setInvalidLogin(true);
+        setAlertVisible(false);
+        setIfInputNull(false);
+      }
     }
+    if (userLogin.invaliLogin < 3) {
+      loginConditioning(pinValue, userLogin);
+    }
+  };
 
-    const userLogin = dataUsers.find((user) => user.id === getIdLogin);
-
+  function loginConditioning(pinValue, userLogin) {
     if (pinValue.some((value) => !value)) {
       setIfInputNull(true);
       setAlertVisible(false);
       setInvalidLogin(false);
     } else {
       if (userLogin.pin == pinValue.join("")) {
+        const data = JSON.parse(Cookies.get("cookiesData"));
+
+        const cookiesData = {
+          ...data,
+          isLogin: true,
+        };
+        Cookies.set("cookiesData", JSON.stringify(cookiesData), {
+          expires: 1 / 24,
+        });
         route.push("/");
       } else {
         if (userLogin.invaliLogin !== 3) {
@@ -54,7 +78,19 @@ export default function Login({ idInserCart }) {
         }
       }
     }
-  };
+  }
+
+  useEffect(() => {
+    const userLogin = dataUsers.find((user) => user.id == idInserCart);
+
+    if (userLogin.invaliLogin == 3) {
+      setInvalidLogin(true);
+      setAlertVisible(false);
+      setIfInputNull(false);
+    } else {
+      setInvalidLogin(false);
+    }
+  }, [dataUsers]);
 
   return (
     <GuestLayout title="MyBanking">
@@ -109,25 +145,9 @@ export default function Login({ idInserCart }) {
                 width: "5rem",
                 height: "4rem",
               }}
-              // onComplete={(value, index) => handleLogin(value, index)}
               autoSelect={true}
             />
-            <Button
-              type="submit"
-              onClick={handleLogin}
-              variant="contained"
-              size="large"
-              sx={{
-                fontSize: "20px",
-                padding: "10px 0",
-                backgroundColor: "#B3C99C",
-                ":hover": {
-                  bgcolor: "#A2C37F",
-                },
-              }}
-            >
-              Login
-            </Button>
+            <ButtonSubmit title="Login" handle={handleLogin} />
           </FormControl>
         </Box>
       </Box>
@@ -136,17 +156,37 @@ export default function Login({ idInserCart }) {
 }
 
 export async function getServerSideProps(context) {
-  const isEnterCard = CheckInsertCardInLoginPage(
-    context.req.cookies.idEnterCard
-  );
+  // const idEnterCard = JSON.parse(context.req.cookies.cookiesData).idEnterCard;
+  // const isLogin = JSON.parse(context.req.cookies.cookiesData).isLogin;
 
-  if (isEnterCard) {
-    return isEnterCard;
+  // const isEnterCard = CheckInsertCardInLoginPage(idEnterCard, isLogin);
+
+  let result = "";
+  let idEnterCard = "";
+  try {
+    const cookiesData = context.req.cookies.cookiesData;
+
+    if (cookiesData) {
+      const parsedCookiesData = JSON.parse(cookiesData);
+      idEnterCard = parsedCookiesData.idEnterCard;
+      const isLogin = parsedCookiesData.isLogin;
+
+      result = CheckInsertCardAndLoginTwo(idEnterCard, isLogin);
+    } else {
+      result = CheckCookieInsertCardInLoginPage(cookiesData);
+    }
+  } catch (error) {
+    console.log(error);
+    console.error(error);
+  }
+
+  if (result) {
+    return result;
   }
 
   return {
     props: {
-      idInserCart: context.req.cookies.idEnterCard,
+      idInserCart: idEnterCard,
     },
   };
 }

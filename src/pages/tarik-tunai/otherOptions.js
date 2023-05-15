@@ -1,23 +1,40 @@
+import MainLayout from "@/Layout";
+import Head from "next/head";
+import React from "react";
+import OtherOptionView from "@/Views/TarikTunai/OtherOptionView";
 import {
   CheckCookieInsertCardInLoginPage,
   CheckInsertCardAndLogin,
 } from "@/Helper/CheckLogin/CheckLogin";
-import MainLayout from "@/Layout";
-import TarikTunaiView from "@/Views/TarikTunai";
-import Head from "next/head";
 
-export default function TarikTunai({ idInserCart }) {
+export default function otherOptions({ idInserCart }) {
   return (
     <>
       <Head>
         <title>Tarik Tunai</title>
       </Head>
       <MainLayout>
-        <TarikTunaiView idInserCart={idInserCart} />
+        <OtherOptionView idInserCart={idInserCart} />
       </MainLayout>
     </>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const isEnterCard = CheckInsertCardInLoginPage(
+//     context.req.cookies.idEnterCard
+//   );
+
+//   if (isEnterCard) {
+//     return isEnterCard;
+//   }
+
+//   return {
+//     props: {
+//       idInserCart: context.req.cookies.idEnterCard,
+//     },
+//   };
+// }
 
 export async function getServerSideProps(context) {
   let result = "";

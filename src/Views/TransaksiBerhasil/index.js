@@ -6,13 +6,21 @@ import { useRouter } from "next/router";
 
 export default function TransaksiBerhasil() {
   const route = useRouter();
+
+  const dataCookies = JSON.parse(Cookies.get("cookiesData"));
+
+  const cookiesData = {
+    ...dataCookies,
+    isLogin: false,
+  };
+
+  Cookies.set("cookiesData", JSON.stringify(cookiesData));
   const handleTransaksiLainnya = () => {
     route.push("/login");
   };
 
   const handleKeluar = () => {
-    console.log("keluar");
-    Cookies.remove("idEnterCard");
+    Cookies.remove("cookiesData");
     route.push("/insert-card");
   };
   return (

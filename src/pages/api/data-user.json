@@ -4,8 +4,9 @@
     "nama": "Ouzy",
     "pin": "123456",
     "nomor": "8723223433",
-    "saldo": "200000",
-    "invaliLogin": 0
+    "saldo": "500000",
+    "invaliLogin": 0,
+    "invalidLoginTime": null
   },
   {
     "id": 2,
@@ -13,6 +14,7 @@
     "pin": "123456",
     "nomor": "8723223444",
     "saldo": "200000",
-    "invaliLogin": 0
+    "invaliLogin": 0,
+    "invalidLoginTime": null
   }
 ]

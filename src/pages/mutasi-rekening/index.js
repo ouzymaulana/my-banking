@@ -3,17 +3,18 @@ import {
   CheckInsertCardAndLogin,
 } from "@/Helper/CheckLogin/CheckLogin";
 import MainLayout from "@/Layout";
-import TarikTunaiView from "@/Views/TarikTunai";
+import MutasiRekening from "@/Views/MutasiRekening";
 import Head from "next/head";
+import React from "react";
 
-export default function TarikTunai({ idInserCart }) {
+export default function mutasiRekening() {
   return (
     <>
       <Head>
-        <title>Tarik Tunai</title>
+        <title>Setor Tunai</title>
       </Head>
       <MainLayout>
-        <TarikTunaiView idInserCart={idInserCart} />
+        <MutasiRekening />
       </MainLayout>
     </>
   );
@@ -21,13 +22,12 @@ export default function TarikTunai({ idInserCart }) {
 
 export async function getServerSideProps(context) {
   let result = "";
-  let idEnterCard = "";
   try {
     const cookiesData = context.req.cookies.cookiesData;
 
     if (cookiesData) {
       const parsedCookiesData = JSON.parse(cookiesData);
-      idEnterCard = parsedCookiesData.idEnterCard;
+      const idEnterCard = parsedCookiesData.idEnterCard;
       const isLogin = parsedCookiesData.isLogin;
 
       result = CheckInsertCardAndLogin(idEnterCard, isLogin);
@@ -44,8 +44,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {
-      idInserCart: idEnterCard,
-    },
+    props: {},
   };
 }

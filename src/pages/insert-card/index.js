@@ -66,10 +66,21 @@ export default function InsertCart({ dataUserLogin }) {
 }
 
 export async function getServerSideProps(context) {
-  const isLogin = CheckInsertCard(context.req.cookies.idEnterCard);
+  let result = "";
+  try {
+    const cookiesData = context.req.cookies.cookiesData;
+    if (cookiesData) {
+      result = CheckInsertCard(cookiesData);
+    }
+  } catch (error) {
+    console.log(error);
+    console.error(error);
+  }
 
-  if (isLogin) {
-    return isLogin;
+  // const isLogin = CheckInsertCard(context.req.cookies.idEnterCard);
+
+  if (result) {
+    return result;
   }
 
   let users = [];

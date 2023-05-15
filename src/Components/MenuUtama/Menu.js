@@ -19,8 +19,7 @@ const menuBoxStyle = {
 };
 
 const handleLogout = () => {
-  localStorage.removeItem("IdLogin");
-  Cookies.remove("idEnterCard");
+  Cookies.remove("cookiesData");
 };
 
 export default function Menu() {
@@ -33,19 +32,19 @@ export default function Menu() {
         <span>tarik tunai</span>
       </Box>
       <Box sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link className={style.buttonMenu} href="/setor-tunai">
           <MonetizationOnOutlinedIcon color="action" fontSize="large" />
         </Link>
         <span>setor tunai</span>
       </Box>
       <Box sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link className={style.buttonMenu} href="/transfer">
           <VolunteerActivismOutlinedIcon color="action" fontSize="large" />
         </Link>
         <span>transfer</span>
       </Box>
       <Box sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link className={style.buttonMenu} href="/profile">
           <CreditCardIcon color="action" fontSize="large" />
         </Link>
         <span>profile</span>
@@ -61,7 +60,7 @@ export default function Menu() {
         <span>LogOut</span>
       </Box>
       <Box textAlign="center" sx={menuBoxStyle}>
-        <Link className={style.buttonMenu} href="/">
+        <Link className={style.buttonMenu} href="/mutasi-rekening">
           <HistoryIcon color="action" fontSize="large" />
         </Link>
         <span>mutasi rekening</span>

@@ -1,3 +1,4 @@
+import DataUserContextProvider from "@/Context/DataUserContextProvider";
 import theme from "@/Helper/theme";
 import Navbar from "@/Views/Navbar";
 import { Box } from "@mui/material";
@@ -11,7 +12,10 @@ export default function MainLayout({ children }) {
         sx={{
           display: "flex",
           justifyContent: "center",
-          backgroundColor: "#FFFF",
+          // backgroundColor: "#FFFF",
+          background: "rgb(201, 219, 178)",
+          background:
+            "linear-gradient(27deg, rgba(201,219,178,1) 0%, rgba(255,255,255,1) 100%)",
         }}
       >
         <Box
@@ -21,9 +25,9 @@ export default function MainLayout({ children }) {
             padding: "110px 30px 30px 30px",
             backgroundColor: theme.palette.secondary.main,
           }}
-          color="#424242"
+          color="black"
         >
-          {children}
+          <DataUserContextProvider>{children}</DataUserContextProvider>
         </Box>
       </Box>
     </>

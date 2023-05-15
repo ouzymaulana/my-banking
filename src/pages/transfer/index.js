@@ -3,17 +3,19 @@ import {
   CheckInsertCardAndLogin,
 } from "@/Helper/CheckLogin/CheckLogin";
 import MainLayout from "@/Layout";
-import TarikTunaiView from "@/Views/TarikTunai";
+import TransferView from "@/Views/Transfer";
+import { LabelImportant } from "@mui/icons-material";
 import Head from "next/head";
+import React from "react";
 
-export default function TarikTunai({ idInserCart }) {
+export default function Transfer(idInserCart) {
   return (
     <>
       <Head>
-        <title>Tarik Tunai</title>
+        <title>TransFer</title>
       </Head>
       <MainLayout>
-        <TarikTunaiView idInserCart={idInserCart} />
+        <TransferView />
       </MainLayout>
     </>
   );

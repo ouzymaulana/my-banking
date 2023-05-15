@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AlertDataForm({ title, severityStatus }) {
   return (
-    <Stack sx={{ width: "100%" }} padding={1}>
+    <Stack sx={{ width: "100%" }} paddingBottom={0.5}>
       <Alert variant="filled" severity={severityStatus}>
         {title}
       </Alert>

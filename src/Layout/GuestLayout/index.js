@@ -6,7 +6,9 @@ export default function GuestLayout({ children, title }) {
       display="flex"
       justifyContent="center"
       sx={{
-        backgroundColor: "white",
+        background: "rgb(201,219,178)",
+        background:
+          "linear-gradient(27deg, rgba(201,219,178,1) 0%, rgba(255,255,255,1) 60%)",
       }}
     >
       <Box

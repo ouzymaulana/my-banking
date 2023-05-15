@@ -9,8 +9,8 @@ export default function CheckInsertCard(cookie) {
   }
   return undefined;
 }
-export function CheckInsertCardInLoginPage(cookie) {
-  if (!cookie) {
+export function CheckCookieInsertCardInLoginPage(cookies) {
+  if (!cookies) {
     return {
       redirect: {
         destination: "/insert-card",
@@ -18,5 +18,41 @@ export function CheckInsertCardInLoginPage(cookie) {
       },
     };
   }
+}
+export function CheckInsertCardAndLogin(idEnterCard, isLogin) {
+  if (!idEnterCard) {
+    return {
+      redirect: {
+        destination: "/insert-card",
+        permanent: false,
+      },
+    };
+  } else if (isLogin === false) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
   return undefined;
+}
+
+export function CheckInsertCardAndLoginTwo(idEnterCard, isLogin) {
+  if (!idEnterCard) {
+    return {
+      redirect: {
+        destination: "/insert-card",
+        permanent: false,
+      },
+    };
+  } else if (isLogin === true) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 }
