@@ -12,9 +12,9 @@ export default function invalidCardButton({ text, setValidCard }) {
         variant="contained"
         size="large"
         sx={{
-          margin: "10px 0",
-          fontSize: "20px",
-          padding: "15px 0",
+          margin: { lg: "10px 0", md: "8px 0", sm: "8px 0", xs: "8px 0" },
+          fontSize: { lg: "20px", md: "16px", xs: "12px" },
+          padding: { lg: "15px 0", md: "12px 0", sm: "8px" },
           width: "100%",
           backgroundColor: "#B3C99C",
           ":hover": {
@@ -22,7 +22,6 @@ export default function invalidCardButton({ text, setValidCard }) {
           },
         }}
       >
-        {/* <FontAwesomeIcon icon={faPrint} />  */}
         {text}
       </Button>
     </Box>

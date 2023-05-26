@@ -17,16 +17,16 @@ export default function MenuView() {
     // >
 
     <>
-      <MenuUtama />
-      <Box
+      {/* <MenuUtama /> */}
+      {/* <Box
         marginTop={2.7}
         padding="20px 20px"
         display="flex"
         flexWrap="wrap"
         justifyContent="start"
-      >
-        <Menu />
-      </Box>
+      > */}
+      <Menu />
+      {/* </Box> */}
     </>
     // </Box>
   );

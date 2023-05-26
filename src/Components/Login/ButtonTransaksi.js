@@ -17,8 +17,8 @@ export default function ButtonTransaksi({ title }) {
         size="large"
         sx={{
           borderRadius: "10px",
-          fontSize: "18px",
-          padding: "8px 60px",
+          fontSize: { lg: "18px", xs: "10px" },
+          padding: { lg: "8px 60px", xs: "8px 20px" },
           backgroundColor: "#FF6464",
           ":hover": {
             bgcolor: "#EE6363",
@@ -34,11 +34,11 @@ export default function ButtonTransaksi({ title }) {
         size="large"
         sx={{
           borderRadius: "10px",
-          fontSize: "18px",
-          padding: "8px 60px",
-          backgroundColor: "#B3C99C",
+          fontSize: { lg: "18px", xs: "10px" },
+          padding: { lg: "8px 60px", xs: "8px 20px" },
+          backgroundColor: "#0600b3  ",
           ":hover": {
-            bgcolor: "#A2C37F",
+            bgcolor: "#07029d",
           },
         }}
       >

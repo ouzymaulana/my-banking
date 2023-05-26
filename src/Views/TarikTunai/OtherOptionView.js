@@ -1,6 +1,6 @@
 import AlertDataForm from "@/Components/Alert/AlertDataForm";
 import { updateBalance } from "@/Redux/Slices/dataUsersSlice";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,8 @@ import SelectButton from "@/Components/TarikTunai/SelectButton";
 import { useDataUser } from "@/Context/DataUserContextProvider";
 import Cookies from "js-cookie";
 import { createMutasiRekening } from "@/Redux/Slices/mutasiRekeningSlice";
+import CofirmTampilkanSaldo from "../Modal/CofirmTampilkanSaldo";
+import Image from "next/image";
 
 export default function OtherOptionView({ idInserCart }) {
   const [isSelectButtom, setIsSelectButton] = useState(false);
@@ -37,11 +39,10 @@ export default function OtherOptionView({ idInserCart }) {
             {
               userId: dataUser.id,
               transactionName: "Tarik Tunai",
+              transferToOrFrom: "-",
               transactionAmount: values.jumlahPenarikan,
-              endingBalance: dataUser.saldo,
-              transactionDate: new Intl.DateTimeFormat(["ban", "id"]).format(
-                date
-              ),
+              endingBalance: dataUser.saldo - values.jumlahPenarikan,
+              transactionDate: date.toISOString(),
             },
           ];
 
@@ -71,97 +72,122 @@ export default function OtherOptionView({ idInserCart }) {
 
   return (
     <>
-      <Box
-        fontSize={25}
-        display="flex"
-        paddingLeft={3}
-        paddingBottom={2}
-        justifyContent="start"
+      <Grid
+        container
+        columns={12}
+        display={"flex"}
+        flexDirection={"row"}
+        flexWrap={{ xs: "wrap" }}
       >
-        <span>Tarik Tunai</span>
-      </Box>
-      <Box borderRadius={2} padding={5} sx={{ backgroundColor: "white" }}>
-        {isValidWithDrawal ? (
-          <TransaksiBerhasil />
-        ) : (
-          <Box
-            display="flex"
-            justifyContent="start"
-            gap={5}
-            flexWrap="wrap"
-            // sx={{ backgroundColor: "red" }}
-          >
-            {isSelectButtom && (
-              <AlertDataForm
-                title="jumlah pecahan harus dipilih"
-                severityStatus="error"
-              />
-            )}
-
-            {insufficientBalance && (
-              <AlertDataForm
-                title="Saldo anda tidak cukup untuk melakukan transaksi"
-                severityStatus="error"
-              />
-            )}
-
-            <Box sx={{ width: "100%" }}>
-              <Box>
-                <Typography variant="subtitle1" gutterBottom>
-                  Pilih Jumlah Pecahan
-                </Typography>
-              </Box>
-              <Box display="flex" gap={2}>
-                <SelectButton
-                  setJumlahPenarikan={setSelectButtonValue}
-                  jumlahPenarikan={selectButtonValue}
-                  jumlah={50000}
-                />
-                <SelectButton
-                  setJumlahPenarikan={setSelectButtonValue}
-                  jumlahPenarikan={selectButtonValue}
-                  jumlah={100000}
-                />
-              </Box>
-            </Box>
-
-            <Formik
-              initialValues={{ jumlahPenarikan: "" }}
-              validationSchema={validationSchema}
-              onSubmit={(values, { setFieldError }) =>
-                handleSubmit(values, setFieldError)
-              }
+        <Box
+          sx={{ display: { xs: "none", md: "none", lg: "block" } }}
+          component={Grid}
+          container
+          lg={6}
+          justifyContent={"center"}
+          alignItems={"center"}
+          paddingTop={"50px"}
+        >
+          <Image
+            src="/img/withdrawing-money.png"
+            width={800}
+            height={700}
+            alt="atm-card"
+          />
+        </Box>
+        <Box
+          borderRadius={2}
+          padding={5}
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            height: "max-content",
+          }}
+          maxWidth={"50rem"}
+          marginTop={8}
+        >
+          {isValidWithDrawal ? (
+            // <TransaksiBerhasil />
+            <CofirmTampilkanSaldo />
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="start"
+              gap={5}
+              flexWrap="wrap"
+              // sx={{ backgroundColor: "red" }}
             >
-              <Form style={{ width: "100%" }}>
-                <label htmlFor="jumlahPenarikan">
-                  Masukkan Jumlah Tarik Tunai
-                </label>
-                <Field
-                  style={{
-                    width: "100%",
-                    margin: "8px 0",
-                    padding: "10px",
-                    fontSize: "20px",
-                    borderRadius: "8px",
-                    border: "2.5px solid #A2C37F",
-                  }}
-                  autoComplete="off"
-                  id="jumlahPenarikan"
-                  name="jumlahPenarikan"
-                  onFocus={(e) => {
-                    e.target.style.borderColor = "#A2C37F";
-                  }}
+              {isSelectButtom && (
+                <AlertDataForm
+                  title="jumlah pecahan harus dipilih"
+                  severityStatus="error"
                 />
-                <span style={{ color: "red" }}>
-                  <ErrorMessage name="jumlahPenarikan" />
-                </span>
+              )}
 
-                <ButtonTransaksi title="Tarik Tunai" />
-              </Form>
-            </Formik>
-          </Box>
-        )}
-      </Box>
+              {insufficientBalance && (
+                <AlertDataForm
+                  title="Saldo anda tidak cukup untuk melakukan transaksi"
+                  severityStatus="error"
+                />
+              )}
+
+              <Box sx={{ width: "100%" }}>
+                <Box>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Pilih Jumlah Pecahan
+                  </Typography>
+                </Box>
+                <Box display="flex" gap={2}>
+                  <SelectButton
+                    setJumlahPenarikan={setSelectButtonValue}
+                    jumlahPenarikan={selectButtonValue}
+                    jumlah={50000}
+                  />
+                  <SelectButton
+                    setJumlahPenarikan={setSelectButtonValue}
+                    jumlahPenarikan={selectButtonValue}
+                    jumlah={100000}
+                  />
+                </Box>
+              </Box>
+
+              <Formik
+                initialValues={{ jumlahPenarikan: "" }}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setFieldError }) =>
+                  handleSubmit(values, setFieldError)
+                }
+              >
+                <Form style={{ width: "100%" }}>
+                  <label htmlFor="jumlahPenarikan">
+                    Masukkan Jumlah Tarik Tunai
+                  </label>
+                  <Field
+                    style={{
+                      width: "100%",
+                      margin: "8px 0",
+                      padding: "10px",
+                      fontSize: "20px",
+                      borderRadius: "8px",
+                      border: "2.5px solid #A2C37F",
+                    }}
+                    autoComplete="off"
+                    id="jumlahPenarikan"
+                    name="jumlahPenarikan"
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "#A2C37F";
+                    }}
+                  />
+                  <span style={{ color: "red" }}>
+                    <ErrorMessage name="jumlahPenarikan" />
+                  </span>
+
+                  <ButtonTransaksi title="Tarik Tunai" />
+                </Form>
+              </Formik>
+            </Box>
+          )}
+        </Box>
+      </Grid>
     </>
   );
 }

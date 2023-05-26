@@ -6,6 +6,7 @@ import {
   CheckCookieInsertCardInLoginPage,
   CheckInsertCardAndLogin,
 } from "@/Helper/CheckLogin/CheckLogin";
+import MenuLayout from "@/Layout/Menu";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Menu() {
@@ -15,9 +16,9 @@ export default function Menu() {
         <title>Menu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <MainLayout>
+      <MenuLayout>
         <MenuView />
-      </MainLayout>
+      </MenuLayout>
     </>
   );
 }

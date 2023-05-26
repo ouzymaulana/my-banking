@@ -14,10 +14,11 @@ export default function GuestLayout({ children, title }) {
       <Box
         position="relative"
         height="100vh"
-        width="50rem"
+        width="100%"
+        // width="50rem"
         sx={{
           padding: "50px",
-          backgroundImage: `url("/img/ATM.png")`,
+          backgroundImage: `url("/img/background1.png")`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",

@@ -5,12 +5,13 @@ import CheckInsertCard, {
   CheckInsertCardAndLoginTwo,
 } from "@/Helper/CheckLogin/CheckLogin";
 import GuestLayout from "@/Layout/GuestLayout";
+import ImageLayout from "@/Layout/ImageLayout";
 import {
   deleteInvalidLoginTimeValue,
   selectSecondDataUser,
   setInvalidLoginValue,
 } from "@/Redux/Slices/dataUsersSlice";
-import { Box, FormControl } from "@mui/material";
+import { Box, FormControl, Grid, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -94,73 +95,75 @@ export default function Login({ idInserCart }) {
 
   return (
     <GuestLayout title="MyBanking">
-      <Box paddingTop={20}>
-        <Box
-          fontSize={35}
-          display="flex"
-          justifyContent="center"
-          padding="20px"
-        >
-          <span>MyBanking</span>
-        </Box>
-        <Box
-          borderRadius={2}
-          padding={5}
-          sx={{ backgroundColor: "rgba(255, 255, 255, 0.822)" }}
-        >
-          {ifInputNull && (
-            <AlertDataForm title="Pin Harus 6 angka" severityStatus="error" />
-          )}
-          {alertVisible && (
-            <AlertDataForm title="Pin Tidak Valid" severityStatus="error" />
-          )}
-          {invalidLogin && (
-            <AlertDataForm
-              title="Anda memasukkan PIN tidak valid 3x, Anda dapat mengakses kembali dalam satu jam kedepan"
-              severityStatus="error"
-            />
-          )}
-          <FormControl variant="standard" sx={{ width: "100%" }}>
-            <PinInput
-              ref={pinInputRef}
-              length={6}
-              initialValue=""
-              secret
-              secretDelay={500}
-              onChange={(value, index) => {}}
-              type="numeric"
-              focus
-              style={{
-                padding: "10px",
-                display: "flex",
-                gap: "20px",
-                justifyContent: "space-evenly",
-                marginBottom: "20px ",
-              }}
-              inputStyle={{
-                borderColor: "#BCBCBC",
-                borderWidth: "3.2px",
-                borderRadius: "8px",
-                fontSize: "1.5em",
-                width: "5rem",
-                height: "4rem",
-              }}
-              autoSelect={true}
-            />
-            <ButtonSubmit title="Login" handle={handleLogin} />
-          </FormControl>
-        </Box>
-      </Box>
+      <ImageLayout src="/img/OTP.png" width={800} hight={700}>
+        <Grid paddingTop={20}>
+          <Grid
+            fontSize={35}
+            display="flex"
+            justifyContent="center"
+            padding="20px"
+          >
+            <span>MyBanking</span>
+          </Grid>
+          <Grid
+            columns={12}
+            borderRadius={2}
+            padding={5}
+            sx={{ backgroundColor: "rgba(255, 255, 255, 0.822)" }}
+          >
+            {ifInputNull && (
+              <AlertDataForm title="Pin Harus 6 angka" severityStatus="error" />
+            )}
+            {alertVisible && (
+              <AlertDataForm title="Pin Tidak Valid" severityStatus="error" />
+            )}
+            {invalidLogin && (
+              <AlertDataForm
+                title="Anda memasukkan PIN tidak valid 3x, Anda dapat mengakses kembali dalam satu jam kedepan"
+                severityStatus="error"
+              />
+            )}
+            <FormControl variant="standard" sx={{ width: "100%" }}>
+              <Typography variant="h6">Masukkan Nomor Pin Anda</Typography>
+              <PinInput
+                className="inpuPin"
+                ref={pinInputRef}
+                length={6}
+                initialValue=""
+                secret
+                secretDelay={500}
+                onChange={(value, index) => {}}
+                type="numeric"
+                focus
+                // inputStyle={{
+                //   borderColor: "#BCBCBC",
+                //   borderWidth: "3.2px",
+                //   borderRadius: "8px",
+                //   fontSize: "1.5em",
+                //   width: { xs: "1rem", lg: "1rem" },
+                //   height: { xs: "1rem", lg: "4rem" },
+                // }}
+                inputStyle={{
+                  padding: { lg: "10px", sm: "5px", xs: "0px" },
+                  borderColor: "#BCBCBC",
+                  borderWidth: "3.2px",
+                  borderRadius: "8px",
+                  fontSize: "1.5em",
+                  width: { xs: "10%", sm: "70%", md: "60%", lg: "50%" },
+                  height: { xs: "1rem", sm: "2.5rem", md: "3rem", lg: "4rem" },
+                }}
+                autoSelect={true}
+              />
+              <ButtonSubmit title="Login" handle={handleLogin} />
+            </FormControl>
+          </Grid>
+        </Grid>
+      </ImageLayout>
     </GuestLayout>
   );
 }
 
 export async function getServerSideProps(context) {
-  // const idEnterCard = JSON.parse(context.req.cookies.cookiesData).idEnterCard;
-  // const isLogin = JSON.parse(context.req.cookies.cookiesData).isLogin;
-
-  // const isEnterCard = CheckInsertCardInLoginPage(idEnterCard, isLogin);
-
   let result = "";
   let idEnterCard = "";
   try {

@@ -9,6 +9,18 @@
   justify-content: center;
   align-items: center;
 }
+.buttonMenudua {
+  background-color: "#989898";
+  padding: 25px 0;
+  border-radius: 10px;
+  height: 60px;
+  width: 100%;
+  color: "#424242";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
 
 .accessAnywhere {
   color: "#989898";
@@ -28,4 +40,38 @@
 
 .select-active {
   background-color: antiquewhite;
+}
+
+#jumlahSetoran,
+#uangRusak {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 8px;
+  border: "2.5px solid #A2C37F";
+}
+
+@media (max-width: 768px) {
+  .buttonMenu {
+    border-radius: 8px;
+    height: 58px;
+    width: 62px;
+  }
+
+  #jumlahSetoran {
+    margin: 8px 0;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: "2px solid #A2C37F";
+  }
+}
+
+@media (max-width: 451px) {
+  .buttonMenu {
+    border-radius: 8px;
+    height: 40px;
+    width: 50px;
+  }
 }

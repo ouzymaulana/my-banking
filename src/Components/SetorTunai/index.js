@@ -1,17 +1,22 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-export default function ButtonSubmit({ title, handle }) {
+export default function SimulationEnterMoney({ title, handle }) {
   return (
     <Button
       onClick={handle}
-      type="submit"
       variant="contained"
       size="large"
       sx={{
+        margin: {
+          lg: "10px 0",
+          md: "8px 0",
+          sm: "8px 0",
+          xs: "8px 0",
+        },
+        fontSize: { lg: "20px", md: "16px", xs: "12px" },
+        padding: { lg: "15px 0", md: "12px 0", sm: "8px" },
         width: "100%",
-        fontSize: { lg: "20px", sm: "10px" },
-        padding: { lg: "10px 0", sm: "8px 0", xs: "3px 0" },
         backgroundColor: "#0600b3  ",
         ":hover": {
           bgcolor: "#07029d",

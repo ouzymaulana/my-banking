@@ -16,8 +16,9 @@ export default function SelectButton({
       className={jumlah === jumlahPenarikan ? "select-active" : ""}
       sx={{
         backgroundColor: jumlah === jumlahPenarikan ? "#EEEEEE" : "white",
-        width: "10rem",
-        border: "2.5px solid #A2C37F",
+        width: { lg: "10rem", xs: "6.5rem" },
+        fontSize: { lg: "18px", xs: "10px" },
+        border: { lg: "2.5px solid #A2C37F", xs: "2px solid #A2C37F" },
         color: "#A2A97F",
         ":hover": {
           border: "2.5px solid #839f66",

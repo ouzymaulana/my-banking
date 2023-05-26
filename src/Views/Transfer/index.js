@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import TransaksiBerhasil from "../TransaksiBerhasil";
 import { createMutasiRekening } from "@/Redux/Slices/mutasiRekeningSlice";
+import CofirmTampilkanSaldo from "../Modal/CofirmTampilkanSaldo";
+import ImageLayout from "@/Layout/ImageLayout";
 
 export default function TransferView() {
   const dataUsers = useSelector(selectSecondDataUser);
@@ -34,12 +36,20 @@ export default function TransferView() {
         const mutationData = [
           {
             userId: dataUser.id,
-            transactionName: "Transfer",
+            transactionName: "Transfer / DB",
+            transferToOrFrom: "Transfer Ke " + tujuanTransfer.nama,
             transactionAmount: value.jumlahTransfer,
-            endingBalance: dataUser.saldo,
-            transactionDate: new Intl.DateTimeFormat(["ban", "id"]).format(
-              date
-            ),
+            endingBalance: dataUser.saldo - value.jumlahTransfer,
+            transactionDate: date.toISOString(),
+          },
+          {
+            userId: tujuanTransfer.id,
+            transactionName: "Transfer / CR",
+            transferToOrFrom: "Transfer Dari " + dataUser.nama,
+            transactionAmount: value.jumlahTransfer,
+            endingBalance:
+              parseInt(tujuanTransfer.saldo) + parseInt(value.jumlahTransfer),
+            transactionDate: date.toISOString(),
           },
         ];
 
@@ -61,65 +71,67 @@ export default function TransferView() {
       .required("Jumlah transfer harus diisi"),
   });
   return (
-    <CardLayout title="Transfer">
-      {isTransferSuccess ? (
-        <TransaksiBerhasil />
-      ) : (
-        <Formik
-          initialValues={{ rekeningTujuan: "", jumlahTransfer: "" }}
-          validationSchema={validationSchema}
-          onSubmit={(values, { setFieldError }) =>
-            handleSubmit(values, setFieldError)
-          }
-        >
-          <Form style={{ width: "100%" }}>
-            <Box paddingBottom={1}>
-              <label htmlFor="jumlahTransfer" style={{ fontSize: "20px" }}>
-                Jumlah Transfer
-              </label>
-              <Field
-                style={{
-                  width: "100%",
-                  margin: "8px 0",
-                  padding: "10px",
-                  fontSize: "20px",
-                  borderRadius: "10px",
-                  border: "3px solid #BCBCBC",
-                }}
-                autoComplete="off"
-                name="jumlahTransfer"
-                id="jumlahTransfer"
-              />
-              <span style={{ color: "red" }}>
-                <ErrorMessage name="jumlahTransfer" />
-              </span>
-            </Box>
+    <ImageLayout src="/img/Approved(1).png" width={800} hight={700}>
+      <CardLayout title="Transfer">
+        {isTransferSuccess ? (
+          <CofirmTampilkanSaldo />
+        ) : (
+          <Formik
+            initialValues={{ rekeningTujuan: "", jumlahTransfer: "" }}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setFieldError }) =>
+              handleSubmit(values, setFieldError)
+            }
+          >
+            <Form style={{ width: "100%" }}>
+              <Box paddingBottom={1}>
+                <label htmlFor="jumlahTransfer" style={{ fontSize: "20px" }}>
+                  Jumlah Transfer
+                </label>
+                <Field
+                  style={{
+                    width: "100%",
+                    margin: "8px 0",
+                    padding: "10px",
+                    fontSize: "20px",
+                    borderRadius: "10px",
+                    border: "3px solid #BCBCBC",
+                  }}
+                  autoComplete="off"
+                  name="jumlahTransfer"
+                  id="jumlahTransfer"
+                />
+                <span style={{ color: "red" }}>
+                  <ErrorMessage name="jumlahTransfer" />
+                </span>
+              </Box>
 
-            <Box>
-              <label htmlFor="rekeningTujuan" style={{ fontSize: "20px" }}>
-                Nomor Rekening Tujuan
-              </label>
-              <Field
-                style={{
-                  width: "100%",
-                  margin: "8px 0",
-                  padding: "10px",
-                  fontSize: "20px",
-                  borderRadius: "10px",
-                  border: "3px solid #BCBCBC",
-                }}
-                autoComplete="off"
-                name="rekeningTujuan"
-                id="rekeningTujuan"
-              />
-              <span style={{ color: "red" }}>
-                <ErrorMessage name="rekeningTujuan" />
-              </span>
-            </Box>
-            <ButtonTransaksi title="Selanjutnya" />
-          </Form>
-        </Formik>
-      )}
-    </CardLayout>
+              <Box>
+                <label htmlFor="rekeningTujuan" style={{ fontSize: "20px" }}>
+                  Nomor Rekening Tujuan
+                </label>
+                <Field
+                  style={{
+                    width: "100%",
+                    margin: "8px 0",
+                    padding: "10px",
+                    fontSize: "20px",
+                    borderRadius: "10px",
+                    border: "3px solid #BCBCBC",
+                  }}
+                  autoComplete="off"
+                  name="rekeningTujuan"
+                  id="rekeningTujuan"
+                />
+                <span style={{ color: "red" }}>
+                  <ErrorMessage name="rekeningTujuan" />
+                </span>
+              </Box>
+              <ButtonTransaksi title="Selanjutnya" />
+            </Form>
+          </Formik>
+        )}
+      </CardLayout>
+    </ImageLayout>
   );
 }
